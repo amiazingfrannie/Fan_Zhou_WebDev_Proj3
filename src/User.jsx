@@ -4,6 +4,8 @@ import axios from 'axios';
 import { formatDateToYMD, timeSince } from './Helpers.jsx'
 import { useNavigate } from 'react-router';
 import BasicNav from './components/BasicNav/BasicNav.jsx';
+import PostCreateCard from './components/Card/PostCreateCard.jsx';
+import UserProfileCard from './components/Card/UserDisplayCard.jsx';
 
 function User() {
     const navigate = useNavigate();
@@ -147,7 +149,8 @@ function User() {
     const UpdatesComponent = ({ updates }) => {
         return (
             <div>
-                {/* <BasicNav/> */}
+                <BasicNav/>
+                <UserProfileCard user={UserPageFile} isCurrentUser={LoggedInUserFile.username === username} updateUserInfo={UserPageFile} postNewUpdate={insertUpdateText}/>
                 {updates.map((update) => (
                     <div key={update._id}>
                         {editingPostId === update._id ? (

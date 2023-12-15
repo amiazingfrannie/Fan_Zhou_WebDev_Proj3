@@ -25,7 +25,11 @@ const MongoDBUrlStr = 'mongodb+srv://franzhou:webdev666@webdevproj.4g8jkzy.mongo
 // const MONGO_CONNECTION_STRING = MongoDBUrlStr;
 
 const mongoDB = process.env.MONGODB_URL || MongoDBUrlStr;
-mongoose.connect(mongoDB, { useNewUrlParser: true })
+mongoose.connect(mongoDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true,
+    })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.error('MongoDB connection error:', err));
 

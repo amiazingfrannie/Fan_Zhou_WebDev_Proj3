@@ -5,7 +5,7 @@ import './App.css'
 import { timeSince } from './Helpers.jsx'
 import { useNavigate } from 'react-router';
 import BasicNav from './components/BasicNav/BasicNav.jsx';
-import BasicCard from './components/Card/BasicCard.jsx';
+import PostCreateCard from './components/Card/PostCreateCard.jsx';
 
 function App() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ function App() {
   return (
     <div >
       <BasicNav/>
-      <BasicCard userName={userName} navigate={navigate} addNewPost={addNewPost} />
+      <PostCreateCard userName={userName} addNewPost={addNewPost} />
 
       <div>
         {updatesList.map((update) => (

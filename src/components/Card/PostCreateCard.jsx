@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-export default function BasicCard({ userName, addNewPost }) {
+export default function PostCreateCard({ userName, addNewPost }) {
 
     const navigate = useNavigate();
   const [postContent, setPostContent] = useState(''); 
@@ -47,7 +47,6 @@ export default function BasicCard({ userName, addNewPost }) {
     <Card sx={{ minWidth: 300, width: '80vw', maxWidth: '800px', margin: 'auto', mt: 5,}}>
       <CardContent>
         <Typography variant="h5" component="div" sx={{ fontFamily: 'Normal',  color: '#CF5704', mb: 2 }}>
-          Create a new post!
         </Typography>
         <TextField
           fullWidth
