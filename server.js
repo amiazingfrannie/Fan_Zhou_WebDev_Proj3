@@ -22,12 +22,16 @@ app.use('/api/user', userApi);
 app.use('/api/updates', updatesApi);
 
 const MongoDBUrlStr = 'mongodb+srv://franzhou:webdev666@webdevproj.4g8jkzy.mongodb.net/?retryWrites=true&w=majority'
-const MONGO_CONNECTION_STRING = MongoDBUrlStr;
+// const MONGO_CONNECTION_STRING = MongoDBUrlStr;
 
-// mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
-mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true })
+const mongoDB = process.env.MONGODB_URL || MongoDBUrlStr;
+mongoose.connect(mongoDB, { useNewUrlParser: true })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+// mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true })
+//   .then(() => console.log('MongoDB connected...'))
+//   .catch(err => console.error('MongoDB connection error:', err));
 
 const db = mongoose.connection;
 

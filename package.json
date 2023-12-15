@@ -27,6 +27,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "mui": "^0.0.1",
+    "nodeman": "^1.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
