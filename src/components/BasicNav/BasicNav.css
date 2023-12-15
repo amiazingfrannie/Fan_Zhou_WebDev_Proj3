@@ -1,0 +1,14 @@
+
+.navbar-custom {
+    font-family: 'Strange'; 
+    font-size: 24px;
+    background-color: #2a8cee !important;
+    color: white !important;
+    width: 100%; 
+}
+
+.brand-custom {
+    font-family: 'Strange'; 
+    font-size: 24px;
+    color: white !important;
+}

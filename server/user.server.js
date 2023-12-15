@@ -3,25 +3,35 @@ const router = express.Router();
 
 const UserAccessor = require('./db/user.model');
 
-router.post('/', async function(request, response) {
+router.post('/signup', async function(request, response) {
     const body = request.body;
     const username = body.username;
     const password = body.password;
+    console.log(password);
     if(!username || !password) {
         response.status(401);
         return response.send("Incomplete request")
     }
 
-    const newUser = {
-        username: username,
-        password: password,
+    try {
+        // Check if user already exists
+        const existingUser = await UserAccessor.getUserByUsername(username);
+        if (existingUser) {
+            return response.status(409).send("Username already taken"); 
+        }
+        const newUser = {
+            username: username,
+            password: password,
+        }
+        const createdUser = await UserAccessor.insertUser(newUser)
+        response.cookie('username', createdUser.username)
+        response.json(createdUser);
+
+    } catch (error) {
+        console.error("Error in signup:", error);
+        response.status(500).send("Internal server error");
     }
 
-    const createdUser = await UserAccessor.insertUser(newUser)
-
-    response.cookie('username', receivedUser.username)
-
-    response.json("Successfully created new user " + createdUser.username);
 })
 
 router.post('/login', async function(request, response) {
@@ -44,7 +54,6 @@ router.post('/login', async function(request, response) {
 
     if(isValidPassword) {
         response.cookie('username', receivedUser.username)
-
         response.status(200);
         return response.send({loggedIn: true})
     } else {
@@ -59,16 +68,60 @@ router.post('/logout', async function(request, response) {
     response.send();
 });
 
-router.get('/isLoggedIn', function(request, response) {
+router.get('/isLoggedIn', async function(request, response) {
     const username = request.cookies.username;
-    
+
+    if (!username) {
+        // If there's no username in cookies, the user is not logged in
+        return response.send({ isLoggedIn: false });
+    }
+
+    const existingUser = await UserAccessor.getUserByUsername(username);
+    if (!existingUser) {
+        return response.status(404).send("User not found");
+    }
     response.send({
-        isLoggedIn: !!username,
-        username: username
+        isLoggedIn: true,
+        username: username,
+        joinedTime: existingUser.createdTime,
+        bio: existingUser.bio
     });
-})
+
+});
 
 
+router.get('/:username', async function(req, res) {
+    const username = req.params.username;
+  
+    // if (!username) {
+    //   return res.status(400).send("Username is required");
+    // }
+    const user = await UserAccessor.getUserByUsername(username);
+    if (user) {
+        return res.send({
+            username: username,
+            joinedTime: user.createdTime,
+            bio: user.bio
+        });
+    } else {
+        return res.status(404).send("User not found");
+    }
+
+});
+
+router.put('/:username', async function(req, res) {
+    const username = req.params.username;
+    const updateBio = req.body.bio;
+    try {
+        await UserAccessor.updateUserBio(username, updateBio);
+        res.status(200).send("Successfully update bio of " + username);
+    } catch (error) {
+        console.error("Error update:", error);
+        res.status(500).send("Error update bio");
+    }
+
+});
+  
 module.exports = router;
 
 

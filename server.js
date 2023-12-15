@@ -2,11 +2,12 @@ const express = require('express');
 const helper = require('./server/helper')
 const pokemonApi = require('./server/pokemon.server')
 const userApi = require('./server/user.server');
+const updatesApi = require('./server/updates.server');
 const cors = require('cors')
 const mongoose = require('mongoose');
 const path = require('path')
-const cookieParser = require('cookie-parser')
-
+const cookieParser = require('cookie-parser');
+const { UpdatesSchema } = require('./server/db/updates.schema');
 
 const app = express();
 
@@ -18,26 +19,30 @@ app.use(cookieParser());
 
 app.use('/api/pokemon', pokemonApi);
 app.use('/api/user', userApi);
+app.use('/api/updates', updatesApi);
 
-// app.get('/', function(request, response) {
-//     response.send(helper.generateRandomResponse())
-// })
+const MongoDBUrlStr = 'mongodb+srv://franzhou:webdev666@webdevproj.4g8jkzy.mongodb.net/?retryWrites=true&w=majority'
+const MONGO_CONNECTION_STRING = MongoDBUrlStr;
 
-// app.get('/', function(request, response) {
-//     response.send("This is the second app GET request");
-// })
+// mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
+mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// app.post('/', function(requst, response) {
-//     response.send("This is a POST request")
-// })
-
-
-const MONGO_CONNECTION_STRING = 'UPDATE MONGODB CONNECTION STRING HERE'
-
-mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
+
+// const Update = mongoose.model('Update', UpdatesSchema, 'updatesTable');
+
+// // Drop the index
+// Update.collection.dropIndex('username_1', function(err, result) {
+//   if (err) {
+//     console.log('Error in dropping index:', err);
+//   } else {
+//     console.log('Index dropped:', result);
+//   }
+// });
 
 let frontend_dir = path.join(__dirname, 'dist')
 
@@ -51,17 +56,3 @@ app.get('*', function (req, res) {
 app.listen(process.env.PORT || 3500, function() {
     console.log("Starting server now...")
 })
-
-//const http = require('http');
-
-// const server = http.createServer(function (request, response) {
-//     response.writeHead(200, { 'Content-Type': 'text/plain' })
-
-//     response.end("Hello, my name is Hunter")
-
-
-// })
-
-// server.listen(3500, "127.0.0.1", function() {
-//     console.log('Starting...')
-// })

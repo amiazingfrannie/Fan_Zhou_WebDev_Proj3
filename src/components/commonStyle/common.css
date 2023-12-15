@@ -1,0 +1,13 @@
+
+@font-face {
+    font-family: 'Normal';
+    src: url('../commonStyle/fonts/YatraOne-Regular.ttf') format('truetype');
+} 
+
+/* common.css */
+body {
+    /* font-family: 'Strange'; */
+    margin: 0;
+    padding: 0;
+    /* background-color: #f3e0d4 !important; */
+}

@@ -10,6 +10,10 @@ exports.UserSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    bio: {
+        type: String,
+        default: ''
+    }
 }, { collection : 'userTable' });
 
 //Date.now()

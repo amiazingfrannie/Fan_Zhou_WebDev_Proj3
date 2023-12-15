@@ -1,112 +1,122 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
-
+import { Home, LeftPane, RightPane } from '../src/components'
 import './App.css'
+import { timeSince } from './Helpers.jsx'
 import { useNavigate } from 'react-router';
+import BasicNav from './components/BasicNav/BasicNav.jsx';
+import BasicCard from './components/Card/BasicCard.jsx';
 
 function App() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [pokemonListState, setPokemonListState] = useState([]);
-  const [insertPokemonName, setInsertPokemonName] = useState('');
-  const [insertPokemonOwner, setInsertPokemonOwner] = useState('');
   const [userName, setUsername] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [updatesList, setUpdatesListState] = useState([]);
 
-  async function getAllPokemon() {
-    const response = await axios.get('/api/pokemon/all')
+  const addNewPost = (newPost) => {
+    setUpdatesListState(prevUpdates => [newPost, ...prevUpdates]);
+  };
 
-    setPokemonListState(response.data);
-  }
+//   const [insertUpdateText, setInsertUpdateText] = useState(null);
 
-  async function getUsername() {
-    const response = await axios.get('/api/user/isLoggedIn')
+  // get all updates from all users
+//   async function getAllUpdates() {
+//     const response = await axios.get('/api/updates/all')
+//     setUpdatesListState(response.data);
+//   }
 
-    if(response.data.username) {
-      setUsername(response.data.username)
+  async function handleCheckUpdatesClick(usernameClicked){
+    if (userName) {
+      navigate(`/user/${usernameClicked}`);
+    } else {
+      navigate('/login');
     }
-  }
+  };
 
-  useEffect( function() {
-    // console.log("I am the first line")
-    // axios.get('http://localhost:3500/api/pokemon/all')
-    //   .then(function(response) {
-    //     console.log("I am the second line")
-    //     const data = response.data;
-
-    //     setPokemonListState(response.data);
-    //   })
-    //   console.log("I am the third line")
-
-     getUsername();
-     getAllPokemon();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userResponse = await axios.get('/api/user/isLoggedIn');
+        if (userResponse.data.username) {
+          setUsername(userResponse.data.username);
+        }
+        const updatesResponse = await axios.get('/api/updates/all');
+        setUpdatesListState(updatesResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setErrorMessage('Failed to load data.');
+      }
+    }
+    fetchData();
   }, []);
 
-  const pokemonComponent = [];
-
-  for(let i = 0; i < pokemonListState.length; i++) {
-    const currentPokemonValue = pokemonListState[i];
-
-    pokemonComponent.push(<div>
-      {currentPokemonValue.name} - Health: {currentPokemonValue.health}
-    </div>)
-  }  
-
-  function updatePokemonName(event) {
-    setInsertPokemonName(event.target.value);
-  }
-
-  function updatePokemonOwner(event) {
-    setInsertPokemonOwner(event.target.value);
-  }
-
-  async function insertNewPokemon() {
-    const newPokemon = {
-      name: insertPokemonName,
-      owner: insertPokemonOwner,
-    };
-
-    await axios.post('/api/pokemon', newPokemon);
-
-    await getAllPokemon();
-
-    setInsertPokemonName('')
-    setInsertPokemonOwner('')
-
-  }
-
-  function onInsertPokemonClick() {
-    insertNewPokemon();
-  }
-
-  async function logOut() {
-    axios.post('/api/user/logout', {})
-
-    navigate('/login')
-  }
-
-  let usernameMessage = <div>Loading...</div>
-  if(userName) {
-    usernameMessage = <div>Logged in as {userName}</div>
-  }
-
   return (
-    <div>
-      {usernameMessage}
-      <div><button onClick={logOut}>Logout</button></div>
+    <div >
+      <BasicNav/>
+      <BasicCard userName={userName} navigate={navigate} addNewPost={addNewPost} />
 
-      <div>{pokemonComponent}</div>
       <div>
-        <h6>Add new Pokemone</h6>
-        <div>Name: </div>
-        <input onInput={updatePokemonName} value={insertPokemonName} />
-        <div>Owner: </div>
-        <input onInput={updatePokemonOwner} value={insertPokemonOwner} />
-        <div><button onClick={onInsertPokemonClick}>Insert Pokemon</button></div>
-        <div></div>
+        {updatesList.map((update) => (
+        <div key={update._id} onClick={() => handleCheckUpdatesClick(update.username)}>
+          {update.username}: Post: {update.context} - {timeSince(update.createdTime)} ago
+        </div>
+      ))}
       </div>
-    </div>
-
+      </div>
   )
 }
 
 export default App
+
+
+  // create new post
+//   async function insertNewUpdate() {
+//     let newUpdate;
+//     if (!insertUpdateText || insertUpdateText.trim() === '') {
+//         setErrorMessage('Please enter some text before posting');
+//         return;
+//     } else {
+//         setErrorMessage('');
+//         newUpdate = {
+//             context: insertUpdateText,
+//         };
+//     }
+//     await axios.post('/api/updates/add', newUpdate);
+//     await getAllUpdates();
+//     setInsertUpdateText('')
+//   }
+
+//   function updateContext(event) {
+//     setInsertUpdateText(event.target.value);
+//   }
+
+//   async function handlePostClick(){
+//     if (userName) {
+//         insertNewUpdate();
+//     } else {
+//       navigate('/login');
+//     }
+//   };
+
+//   async function getUsername() {
+//     const response = await axios.get('/api/user/isLoggedIn')
+//     if(response.data.username) {
+//         setUsername(response.data.username)
+//     }
+//   }
+
+//   useEffect( function() {
+//      getUsername();
+//     //  getAllUpdates()
+//   }, []);
+
+        {/* <input 
+            onInput={updateContext}
+            value={insertUpdateText}   
+            placeholder="Anything to share?" 
+            style={{ color: 'gray' }}
+        />
+        {errorMessage && <div style={{ color: 'blue' }}>{errorMessage}</div>}
+        <div><button onClick={handlePostClick}>post</button></div>
+   */}

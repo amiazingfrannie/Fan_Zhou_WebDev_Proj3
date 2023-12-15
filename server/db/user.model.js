@@ -9,15 +9,21 @@ function insertUser(user) {
 }
 
 function getUserByUsername(username) {
+    // console.log(username)
     return UserModel.findOne({username: username}).exec();
 }
 
-// User1 - p: 1234 - createdDate: 12/05
-// User2 - p: 2345 - createdDate: 12/05
-// User3 - p: 3456 - createdDate: 12/01
-// UserModel.find({p: 1234, createdDate: '12/05'}).exec()
+function updateUserBio(username, bio) {
+    return UserModel.findOneAndUpdate(
+        { username: username },
+        { $set: { bio: bio } },
+        { new: true } 
+    ).exec();
+}
+
 
 module.exports = {
     insertUser,
     getUserByUsername,
+    updateUserBio
 };
