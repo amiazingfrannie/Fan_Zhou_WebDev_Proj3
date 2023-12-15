@@ -5,6 +5,8 @@
     background-color: #2a8cee !important;
     color: white !important;
     width: 100%; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+    margin-bottom: 20px; 
 }
 
 .brand-custom {

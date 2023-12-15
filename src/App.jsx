@@ -54,7 +54,7 @@ function App() {
   return (
     <div >
       <BasicNav/>
-      <PostCreateCard userName={userName} addNewPost={addNewPost} />
+      <PostCreateCard userName={userName} addNewPost={addNewPost} className="card-custom" />
 
       <div>
         {updatesList.map((update) => (

@@ -13,12 +13,14 @@ function User() {
     const [updatesByUserList, setUpdatesByUserListState] = useState([]);
     const [insertUpdateText, setInsertUpdateText] = useState('');
     const [LoggedInUserFile, setLoggedInUserFile] = useState({});
-    const [UserPageFile, setUserPageFile] = useState({});
-    const [editableBio, setEditableBio] = useState('');
     const [editingPostId, setEditingPostId] = useState(null);
     const [editablePostTexts, setEditablePostTexts] = useState({});
-
     const [errorMessage, setErrorMessage] = useState('');
+    const [updatesList, setUpdatesListState] = useState([]);
+
+    const addNewPost = (newPost) => {
+      setUpdatesListState(prevUpdates => [newPost, ...prevUpdates]);
+    };
 
     function updateEditablePostText(postId, newText) {
         setEditablePostTexts(prevTexts => ({
@@ -45,19 +47,6 @@ function User() {
         } catch (err) {
         setErrorMessage("Error deleting post");
     } }
-
-    async function handleBioUpdate() {
-        try {
-            await axios.put(`/api/user/${username}`, { bio: editableBio });
-            setUserPageFile(prevState => ({
-                ...prevState,
-                bio: editableBio
-            }));
-            setEditableBio('');
-        } catch (err) {
-            setErrorMessage("Error updating bio");
-        }
-    }
 
     // create new post
     async function insertNewUpdate() {
@@ -110,6 +99,7 @@ function User() {
 
     async function getLoggedInUserFile() {
         const response = await axios.get(`/api/user/isLoggedIn`);
+        // console.log(LoggedInUserFile.username === username)
         if(response.data.username) {
             setLoggedInUserFile({
                 username:response.data.username,
@@ -119,28 +109,12 @@ function User() {
         }
     }
 
-    async function getUserPageFile() {
-        try{
-            const response = await axios.get(`/api/user/${username}`)
-            if(response.data.username) {
-                setUserPageFile({
-                    username:response.data.username,
-                    joinedTime:formatDateToYMD(response.data.joinedTime),
-                    bio: response.data.bio
-                })
-                console.log(UserPageFile);
-            }
-        } catch(err) {
-            setErrorMessage(err.response.data);
-        }
-    }
-
     useEffect(() => {
         getLoggedInUserFile();
-        getUserPageFile();
+        // getUserPageFile();
         getUserUpdates(username);
         setErrorMessage('');
-    }, [username]);
+    }, [username, updatesList]);
 
     if (!updatesByUserList) {
         return <div>Loading...</div>;
@@ -149,8 +123,6 @@ function User() {
     const UpdatesComponent = ({ updates }) => {
         return (
             <div>
-                <BasicNav/>
-                <UserProfileCard user={UserPageFile} isCurrentUser={LoggedInUserFile.username === username} updateUserInfo={UserPageFile} postNewUpdate={insertUpdateText}/>
                 {updates.map((update) => (
                     <div key={update._id}>
                         {editingPostId === update._id ? (
@@ -186,8 +158,47 @@ function User() {
 
     return (
     <div>
-        <h1>Home of {UserPageFile.username}</h1>
-        <p>bio: {UserPageFile.bio}</p>
+        <BasicNav/>
+        <UserProfileCard user={username} isCurrentUser={LoggedInUserFile.username === username} postNewUpdate={addNewPost}/>
+        <UpdatesComponent updates={updatesByUserList} />
+    </div>
+    );
+}
+
+export default User;
+
+
+    // async function handleBioUpdate() {
+    //     try {
+    //         await axios.put(`/api/user/${username}`, { bio: editableBio });
+    //         setUserPageFile(prevState => ({
+    //             ...prevState,
+    //             bio: editableBio
+    //         }));
+    //         setEditableBio('');
+    //     } catch (err) {
+    //         setErrorMessage("Error updating bio");
+    //     }
+    // }
+    // async function getUserPageFile() {
+    //     try{
+    //         const response = await axios.get(`/api/user/${username}`)
+    //         if(response.data.username) {
+    //             setUserPageFile({
+    //                 username:response.data.username,
+    //                 joinedTime:formatDateToYMD(response.data.joinedTime),
+    //                 bio: response.data.bio
+    //             })
+    //             console.log(UserPageFile);
+    //         }
+    //     } catch(err) {
+    //         setErrorMessage(err.response.data);
+    //     }
+    // }
+    // const [UserPageFile, setUserPageFile] = useState({});
+    // const [editableBio, setEditableBio] = useState('');
+            {/* <h1>Home of {UserPageFile.username}</h1> */}
+        {/* <p>bio: {UserPageFile.bio}</p>
         {LoggedInUserFile.username === username && (
         <div>
             <input 
@@ -198,8 +209,9 @@ function User() {
             <button onClick={handleBioUpdate}>Update Bio</button>
         </div>
         )}
-        <p>joined at {UserPageFile.joinedTime}</p>
-        {LoggedInUserFile.username === username && (
+        <p>joined at {UserPageFile.joinedTime}</p> */}
+
+                {/* {LoggedInUserFile.username === username && (
         <div>
         <input 
             onInput={updateContext}
@@ -210,10 +222,4 @@ function User() {
         {errorMessage && <div style={{ color: 'blue' }}>{errorMessage}</div>}
         <div><button onClick={handlePostClick}>post</button></div>
         </div>
-        )}
-        <UpdatesComponent updates={updatesByUserList} />
-    </div>
-    );
-}
-
-export default User;
+        )} */}
