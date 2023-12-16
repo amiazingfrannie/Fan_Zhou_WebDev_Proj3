@@ -44,7 +44,7 @@ export default function PostCreateCard({ userName, addNewPost, className}) {
     };
 
     return (
-        <Card className={className} sx={{ minWidth: 300, maxWidth: 500, margin: '30px auto', mt: 0}} >
+        <Card className={className} sx={{ minWidth: 300, maxWidth: 500, margin: '20px auto', mt: 0}} >
         <CardContent>
             <Typography variant="h5" component="div" sx={{ fontFamily: 'Normal',  color: '#CF5704', mb: 2 }}>
             </Typography>

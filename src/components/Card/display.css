@@ -1,0 +1,11 @@
+
+.content-container {
+    padding-top: 50px; 
+}
+
+
+@media (max-width: 600px) {
+    .content-container {
+        padding-top: 50px; 
+    }
+}

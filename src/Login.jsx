@@ -69,30 +69,4 @@ export default function Login() {
         <div> {errorMessage && <div style={{ color: 'blue' }}>{errorMessage}</div>}
          </div>
     </div>
-    )}
-
-        {/* <div>
-            <button onClick={submitLogin}>Login</button>
-            <button onClick={submitLogin}>Sign Up</button>
-        </div> */}
-    // function updateUserNameInState(event) {
-    //     const username = event.target.value;
-
-    //     const newLoginFormState = {
-    //         password: loginFormState.password,
-    //         username: username,
-    //     }
-
-    //     setLoginFormState(newLoginFormState)
-    // }
-    
-    // function updatePasswordInState(event) {
-    //     const password = event.target.value;
-
-    //     const newLoginFormState = {
-    //         username: loginFormState.username,
-    //         password: password,
-    //     }
-
-    //     setLoginFormState(newLoginFormState)
-    // }
+)}

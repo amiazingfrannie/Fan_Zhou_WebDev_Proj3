@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import axios from 'axios';
+import './display.css';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'; 
@@ -13,6 +14,7 @@ import { formatDateToYMD} from '../../Helpers.jsx'
 
 function UserProfileCard({ isCurrentUser, postNewUpdate }) {
 
+    // console.log(isCurrentUser)
     const { username } = useParams();
     const [isEditing, setIsEditing] = useState(false);
     const [UserPageFile, setUserPageFile] = useState({});
@@ -60,7 +62,7 @@ function UserProfileCard({ isCurrentUser, postNewUpdate }) {
     const errorMessageDisplay = errorMessage ? <Typography color="error">{errorMessage}</Typography> : null;
 
   return (
-    <Card sx={{ minWidth: 300, maxWidth: 800, maxHeight: 360, margin: '30px auto', mt: 8 }}>
+    <Card sx={{ minWidth: 300, maxWidth: 800, maxHeight: 360, margin: '30px auto', mt: 2 }}>
       <CardContent>
        {errorMessageDisplay}
         {/* <Avatar src={user.profilePic} sx={{ width: 56, height: 56 }}/> */}
