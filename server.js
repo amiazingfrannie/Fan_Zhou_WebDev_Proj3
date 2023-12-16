@@ -17,10 +17,9 @@ app.use(cookieParser());
 app.use('/api/user', userApi);
 app.use('/api/updates', updatesApi);
 
-const MongoDBUrlStr = 'mongodb+srv://franzhou:webdev666@webdevproj.4g8jkzy.mongodb.net/?retryWrites=true&w=majority'
 // const MONGO_CONNECTION_STRING = MongoDBUrlStr;
 
-const mongoDB = process.env.MONGODB_URL || MongoDBUrlStr;
+const mongoDB = process.env.MONGODB_URL;
 mongoose.connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
