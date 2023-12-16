@@ -6,9 +6,9 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'; 
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import PostCreateCard from './PostCreateCard.jsx';
-import { formatDateToYMD, timeSince } from '../../Helpers.jsx'
+import { formatDateToYMD} from '../../Helpers.jsx'
 
 
 function UserProfileCard({ isCurrentUser, postNewUpdate }) {
@@ -38,7 +38,6 @@ function UserProfileCard({ isCurrentUser, postNewUpdate }) {
     }
 
     async function getUserPageFile() {
-        console.log(isCurrentUser)
         try {
             const response = await axios.get(`/api/user/${username}`);
             if (response.data.username) {
@@ -53,7 +52,6 @@ function UserProfileCard({ isCurrentUser, postNewUpdate }) {
         }
     }
 
-
     useEffect(() => {
         getUserPageFile();
         setEditableBio('');
@@ -62,7 +60,7 @@ function UserProfileCard({ isCurrentUser, postNewUpdate }) {
     const errorMessageDisplay = errorMessage ? <Typography color="error">{errorMessage}</Typography> : null;
 
   return (
-    <Card sx={{ minWidth: 400, maxWidth: 800, maxHeight: 375, margin: 'auto', mt: 8 }}>
+    <Card sx={{ minWidth: 300, maxWidth: 800, maxHeight: 360, margin: '30px auto', mt: 8 }}>
       <CardContent>
        {errorMessageDisplay}
         {/* <Avatar src={user.profilePic} sx={{ width: 56, height: 56 }}/> */}

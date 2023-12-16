@@ -11,18 +11,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 function BasicNav() {
 
     const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState('');
 
-//   async function getUsername() {
-//     const response = await axios.get('/api/user/isLoggedIn')
-//     if(response.data.username) {
-//         console.log(response.data.username)
-//         setUsername(response.data.username);
-//         setIsLoggedIn(true);
-//         console.log(isLoggedIn)
-//     }
-//   }
     useEffect(() => {
         async function fetchUserData() {
         try {
@@ -42,7 +33,8 @@ function BasicNav() {
     }, [username]);
 
     async function logOut() {
-        axios.post('/api/user/logout', {})
+        axios.post('/api/user/logout', {});
+        setUsername('');
         navigate('/login')
     }
 

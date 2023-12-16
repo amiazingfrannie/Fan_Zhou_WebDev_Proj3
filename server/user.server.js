@@ -58,7 +58,7 @@ router.post('/login', async function(request, response) {
         return response.send({loggedIn: true})
     } else {
         response.status(404);
-        return response.send("No user with username + password combo exists " + username)
+        return response.send("Try another password!")
     }
 
 })
@@ -88,7 +88,6 @@ router.get('/isLoggedIn', async function(request, response) {
     });
 
 });
-
 
 router.get('/:username', async function(req, res) {
     const username = req.params.username;

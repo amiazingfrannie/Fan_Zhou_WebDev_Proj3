@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import BasicNav from "./components/BasicNav/BasicNav";
 // import { response } from "express";
 
 export default function Login() {
@@ -25,28 +26,6 @@ export default function Login() {
             password: event.target.value
         }));
     }
-
-    // function updateUserNameInState(event) {
-    //     const username = event.target.value;
-
-    //     const newLoginFormState = {
-    //         password: loginFormState.password,
-    //         username: username,
-    //     }
-
-    //     setLoginFormState(newLoginFormState)
-    // }
-    
-    // function updatePasswordInState(event) {
-    //     const password = event.target.value;
-
-    //     const newLoginFormState = {
-    //         username: loginFormState.username,
-    //         password: password,
-    //     }
-
-    //     setLoginFormState(newLoginFormState)
-    // }
 
     async function submitLogin() {
         try {
@@ -74,7 +53,9 @@ export default function Login() {
     }
 
 
-    return <div>
+    return (
+        <div>
+        <BasicNav/>
         <div>Username:</div>
         <input type='text' onInput={updateUserNameInState} />
         <div>Password:</div>
@@ -85,12 +66,33 @@ export default function Login() {
             <Button variant="contained" onClick={submitSignUp}> Sign up
             </Button>
         </Stack>
+        <div> {errorMessage && <div style={{ color: 'blue' }}>{errorMessage}</div>}
+         </div>
+    </div>
+    )}
+
         {/* <div>
             <button onClick={submitLogin}>Login</button>
             <button onClick={submitLogin}>Sign Up</button>
         </div> */}
-        <div> {errorMessage && <div style={{ color: 'blue' }}>{errorMessage}</div>} </div>
+    // function updateUserNameInState(event) {
+    //     const username = event.target.value;
 
+    //     const newLoginFormState = {
+    //         password: loginFormState.password,
+    //         username: username,
+    //     }
 
-    </div>
-}
+    //     setLoginFormState(newLoginFormState)
+    // }
+    
+    // function updatePasswordInState(event) {
+    //     const password = event.target.value;
+
+    //     const newLoginFormState = {
+    //         username: loginFormState.username,
+    //         password: password,
+    //     }
+
+    //     setLoginFormState(newLoginFormState)
+    // }
