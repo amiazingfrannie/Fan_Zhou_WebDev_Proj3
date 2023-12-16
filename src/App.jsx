@@ -62,6 +62,12 @@ function App() {
     };
 
     useEffect(() => {
+        if (userName) {
+            getUserUpdates(userName);
+        }
+    }, [userName]);
+
+    useEffect(() => {
         async function fetchData() {
         try {
             const userResponse = await axios.get('/api/user/isLoggedIn');

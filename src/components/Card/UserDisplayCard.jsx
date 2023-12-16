@@ -62,7 +62,7 @@ function UserProfileCard({ isCurrentUser, postNewUpdate }) {
     const errorMessageDisplay = errorMessage ? <Typography color="error">{errorMessage}</Typography> : null;
 
   return (
-    <Card sx={{ minWidth: 300, maxWidth: 800, maxHeight: 360, margin: '30px auto', mt: 2 }}>
+    <Card sx={{ minWidth: 300, maxWidth: 800, margin: '30px auto', mt: 2 }}>
       <CardContent>
        {errorMessageDisplay}
         {/* <Avatar src={user.profilePic} sx={{ width: 56, height: 56 }}/> */}

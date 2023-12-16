@@ -73,13 +73,16 @@ function User() {
 
     useEffect(() => {
         getLoggedInUserFile();
-    }, [username]);  
-    
-    useEffect(() => {
         if (username) {
             getUserUpdates(username);
-        }
-    }, [username]); 
+        }    
+    }, [username]);  
+    
+    // useEffect(() => {
+    //     if (username) {
+    //         getUserUpdates(username);
+    //     }
+    // }, [username]); 
 
     return (
     <div>
