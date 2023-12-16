@@ -44,6 +44,6 @@ export function timeSince(dateString) {
     if (interval > 1) {
       return Math.floor(interval) + " minutes";
     }
-    return Math.floor(seconds) + " seconds";
+    return Math.floor(seconds+1) + " seconds";
 }
   
